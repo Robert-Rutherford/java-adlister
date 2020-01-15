@@ -25,10 +25,21 @@ public class MySQLAdsDao implements Ads {
     @Override
     public List<Ad> all() {
         Statement stmt = null;
+        List<Ad> output = new ArrayList<>();
+
         try {
             stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM ads");
-            return createAdsFromResults(rs);
+            while (rs.next()) {
+                output.add(new Ad(
+                        rs.getLong("id"),
+                        rs.getLong("user_id"),
+                        rs.getString("title"),
+                        rs.getString("description")
+                ));
+            }
+//            return createAdsFromResults(rs);
+            return output;
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving all ads.", e);
         }
@@ -54,20 +65,20 @@ public class MySQLAdsDao implements Ads {
                 + "'" + ad.getDescription() + "')";
     }
 
-    private Ad extractAd(ResultSet rs) throws SQLException {
-        return new Ad(
-                rs.getLong("id"),
-                rs.getLong("user_id"),
-                rs.getString("title"),
-                rs.getString("description")
-        );
-    }
-
-    private List<Ad> createAdsFromResults(ResultSet rs) throws SQLException {
-        List<Ad> ads = new ArrayList<>();
-        while (rs.next()) {
-            ads.add(extractAd(rs));
-        }
-        return ads;
-    }
+//    private Ad extractAd(ResultSet rs) throws SQLException {
+//        return new Ad(
+//                rs.getLong("id"),
+//                rs.getLong("user_id"),
+//                rs.getString("title"),
+//                rs.getString("description")
+//        );
+//    }
+//
+//    private List<Ad> createAdsFromResults(ResultSet rs) throws SQLException {
+//        List<Ad> ads = new ArrayList<>();
+//        while (rs.next()) {
+//            ads.add(extractAd(rs));
+//        }
+//        return ads;
+//    }
 }
