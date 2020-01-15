@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLAdsDao implements Ads {
-    Connection connection = null;
+    private Connection connection;
 
 
     public MySQLAdsDao(Config config) {
