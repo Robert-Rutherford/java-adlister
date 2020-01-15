@@ -7,6 +7,7 @@ import java.util.List;
 
 public class MySQLAdsDao implements Ads {
     private Connection connection;
+    private static Config configT = new Config();
 
 
     public MySQLAdsDao(Config config) {
@@ -81,4 +82,16 @@ public class MySQLAdsDao implements Ads {
 //        }
 //        return ads;
 //    }
+
+    public static void main(String[] args) {
+        Ads adsDao = new MySQLAdsDao(configT);
+//        List<Ad> ads = adsDao.all();
+//        for (Ad ad: ads){
+//        System.out.println(ad);
+//        }
+
+        Ad testInsert = new Ad(1,"test tile for ads","this is a description");
+        adsDao.insert(testInsert);
+
+    }
 }
