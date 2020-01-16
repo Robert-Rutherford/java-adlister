@@ -36,13 +36,19 @@ public class MySQLUsersDao implements Users {
 
     @Override
     public Long insert(User user) {
+//        sets up query SQL statement for values to be inputted
         String query = "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
+//        try catch for creating user in the event of failure while creating the user.
         try {
+//            lined used to protect against SQL insertion
             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+//          next three line places the respective values into the query (in place of the ?)
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getPassword());
+//            run the SQL statement and add the user to the users table
             stmt.executeUpdate();
+//           retrieves the new user id and returns it
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
             return rs.getLong(1);
